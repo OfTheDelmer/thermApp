@@ -15,10 +15,10 @@
 	<style>
 	body{
 		background-color:#f2f2f2;
-			font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
-				font-size: 36px;
-				font-weight: normal;
-				line-height: 0.9;
+		font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+		font-size: 36px;
+		font-weight: normal;
+		line-height: 0.9;
 		font-size: 20px;
 	}
 	
@@ -66,12 +66,11 @@
 		width:200px;
 	}
 	.nav > li {
-		
-			width: 100px;
-			margin:5px;
-			padding:10px;
-			float:right;
-			border-bottom: 2px solid #ddd;
+		width: 100px;
+		margin:5px;
+		padding:10px;
+		float:right;
+		border-bottom: 2px solid #ddd;
 	}
 	.nav > li > a{
 		color:black;
@@ -117,11 +116,9 @@
 	{
 		border-top: solid 2px #d2d2d2;
 		margin:auto;
-		padding10px;
 	}
 	.item
 	{
-		
 		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
 		padding:20px;
 	}
@@ -146,12 +143,10 @@
 	
 	}
 	.action{
-		
 		color:#d00;
 		font-size:15px;
 		margin-right:20px;
 		float:right;
-		
 	}
 	.action:hover{
 		cursor:pointer;
@@ -159,18 +154,17 @@
 	
 	.action-item
 	{
-		
 		margin:20px;
 		background-color:#fff;
 		display:inline-block;
 		width:500px;
 		border: solid 1px #ddd;
 	}
+	
 	.info
 	{
-		
 	  	min-height:500px;
-	     float:left;
+	    float:left;
 		position:absolute;
 		left: 300px;
 		top:0px;
@@ -186,14 +180,14 @@
 		left:0px;
 		width:300px;
 		height:100%;
-		background-color:none;
+		background-color:#f2f2f2;
 		margin-right:150px;
 		overflow-y:scroll;
 		overflow-x:hidden;
 	}
 	.left-show-false{
-			content:" ";
-			background-color:#e2e2e2;
+		content:" ";
+		background-color:#e2e2e2;
 	}
 	.main-con{
 		background-color:#aaa;
@@ -383,7 +377,7 @@
 	}
 	
 	.btn-primary{
-			font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+		font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
 		font-size:18px;
 		text-transform:uppercase;
 		background-color: #fff;
@@ -401,6 +395,15 @@
 		width:478px;
 		height:50px;
 	}
+	.percent-con{
+		width:100%;
+	}
+	.percent {
+		text-transform:uppercase;
+		background-color:white;
+		border-bottom: solid 1px #ddd;
+		padding:10px;
+	}
 	</style>
 	
 	<script type='text/javascript'
@@ -415,28 +418,21 @@
 			myapp.controller('ThermCtrl', function($scope, angularFire){
 			
 				// The hotness list is the tempeture of course productivity,
-		      	var url = "https://wdi-summer.firebaseio.com/hotness"
+		      	var url = "https://wdi-summer.firebaseio.com/hotness";
 			    var ref = new Firebase(url);																			
 			  	promise =  angularFire(ref, $scope, "hotness");
-			
-			
-				console.log("this is the promise")
-				console.log(promise)
+
 				promise.then(function(){
 						$scope.showMe = false;
 						$scope.showAdd = false;
 						$scope.showAddUser = false;
-						$scope.addUserMsg = "Add Yourself"
-						$scope.itemOptions = ["milestones", "mvp"]
+						$scope.addUserMsg = "Add Yourself";
+						$scope.itemOptions = ["milestones", "mvp"];
 						$scope.leftShow = false;
 						$scope.addChatShow = false;
-						$scope.chatButton = "show messages"
-						$scope.goToUser = function(){
-					
-						   	window.scrollBy(0,50); // horizontal and vertical scroll increments
-					    	scrolldelay = setTimeout('pageScroll()',100); // scrolls every 100 milliseconds
-			
-						}
+						$scope.chatButton = "show messages";
+						$scope.percentComplete = Math.floor($scope.hotness[1].completionScore/$scope.hotness[1].totalItems*100);
+						$scope.colorGrade = function(){ return Math.floor(($scope.percentComplete/100)*255)}
 						$scope.toggleAddUser = function() {
 							$scope.showAddUser = !$scope.showAddUser;
 							if($scope.showAddUser){
@@ -448,33 +444,40 @@
 						
 						$scope.addUser = function(){
 							$scope.hotness[1].students[$scope.newUser] = new Object();
-							$scope.hotness[1].students[$scope.newUser].mvp = []
-							$scope.hotness[1].students[$scope.newUser].milestones = []
-							$scope.newUser = ""
+							$scope.hotness[1].students[$scope.newUser].mvp = [];
+							$scope.hotness[1].students[$scope.newUser].milestones = [];
+							$scope.newUser = "";
 							$scope.toggleAddUser();
-						}
+						};
+						
 						$scope.toggleAdd = function(){
 							this.showAdd = !this.showAdd;
-						}
+						};
+						
 						$scope.toggle = function(){
 							this.showMe = !this.showMe;
-						}
+						};
+						
 						$scope.showChat = function(){
 							this.leftShow = !this.leftShow;
 							if(this.leftShow){
-								this.chatButton = "hide messages"
+								this.chatButton = "hide messages";
 							} else {
-								this.chatButton = "show messages"
+								this.chatButton = "show messages";
 							}	
-						}
+						};
+						
 						$scope.showChatForm = function(){
 							this.addChatShow = !this.addChatShow;
-						}
+						};
+						
 						$scope.addMile = function(){
 							this.work[this.itemType] = this.work[this.itemType] || [];
 							this.work[this.itemType].push({text: this.newMilestone, completed: false});		
 							this.newMilestone = "";
-						}
+							$scope.hotness[1].totalItems = $scope.hotness[1].totalItems + 1;
+						};
+						
 						$scope.commentsTotal = function(comments) {
 							var count = 0;
 							comments.forEach(function(item) {
@@ -482,6 +485,7 @@
 							})
 							return 0;
 						};
+						
 						$scope.parseName = function(name){
 							var result = name.replace( /([A-Z])/g, " $1" );
 							var finalResult = result.charAt(0).toUpperCase() + result.slice(1);
@@ -494,35 +498,39 @@
 						
 						$scope.presentItem = function(item){
 							if(item != "completionScore"){
-							 return {text: item.charAt(0).toUpperCase() + item.slice(1), extra: ""}
+							 return {text: item.charAt(0).toUpperCase() + item.slice(1), 
+								    extra: ""}
 							} else {
 								var completion = 	
 								this.list/(this.work.milestones.length);
 								if(completion == 1){
-									return {text: "DONE!!", extra: ""}
-								} else{
-								return {text:"Completion ", extra: Math.floor(completion*100) +"%"};
+									return {text: "DONE!!",
+									 		extra: ""}
+								} else {
+									return {text:"Completion ", 
+											extra: Math.floor(completion*100) +"%"};
 								}
 							}
-						}
+						};
 						
 						$scope.submitComment = function(){
 							this.stat.comments = this.stat.comments || new Array();	
 							d = new Date();
-							this.stat.comments.push({name: this.commenter,date: d.toLocaleDateString(), time: d.toLocaleTimeString(),text: this.newComment})
-							this.newComment = ""
-						}
+							this.stat.comments.push({name: this.commenter,
+													date: d.toLocaleDateString(), 
+													time: d.toLocaleTimeString(),
+													text: this.newComment})
+							this.newComment = "";
+						};
 						
 						$scope.checkbox = function() {
 							this.stat.completed = !this.stat.completed;
-							$scope.updateCompleted(this.stat.completed, this.name)
-							
+							$scope.updateCompleted(this.stat.completed, this.name);
 						};
 						
 						$scope.showStatus = function() {
-							
 							if(this.item == "milestones"){
-								return "Done!?"
+								return "Done!?";
 							} else {
 								return null;
 							}
@@ -531,17 +539,20 @@
 							
 							$scope.hotness[1].completionScore =
 							 	$scope.hotness[1].completionScore || 0;	
-							$scope.hotness[1].students[name].completionScore = $scope.hotness[1].students[name].completionScore || 0;				
+							$scope.hotness[1].students[name].completionScore = $scope.hotness[1].students[name].completionScore || 0;		
+									
 							if(val){
 								$scope.hotness[1].completionScore =
 								 			$scope.hotness[1].completionScore + 1;
 								$scope.hotness[1].students[name].completionScore =
-								$scope.hotness[1].students[name].completionScore + 1;
+											$scope.hotness[1].students[name].completionScore + 1;
+									$scope.percentComplete = Math.floor($scope.hotness[1].completionScore/$scope.hotness[1].totalItems*100);
 							} else {
 								$scope.hotness[1].completionScore =
 								 			$scope.hotness[1].completionScore - 1;
 								$scope.hotness[1].students[name].completionScore =
-								$scope.hotness[1].students[name].completionScore - 1;
+											$scope.hotness[1].students[name].completionScore - 1;
+								$scope.percentComplete = Math.floor($scope.hotness[1].completionScore/$scope.hotness[1].totalItems*100);
 							}
 						}
 		
@@ -549,7 +560,7 @@
 				})
 			})			
 			
-			
+			// Simple Angular/AngularFire Chat example with a scroll directive.
 			  myapp.controller('Chat', ['$scope', '$timeout', 'angularFireCollection',
 			    function($scope, $timeout, angularFireCollection) {
 			      var url = 'https://wdi-summer.firebaseio.com/thermChat';
@@ -557,18 +568,26 @@
 			    
 			      $scope.addMessage = function() {
 					d = new Date();
-			        $scope.messages.add({from: $scope.from, content: $scope.message, time: d.toLocaleTimeString(), date: d.toLocaleDateString()});
+					
+			        $scope.messages.add({from: $scope.from, 
+					  content: $scope.message, 
+				      time: d.toLocaleTimeString(), 
+					  date: d.toLocaleDateString()
+					});
+					
 			        $scope.message = "";
-				
 			      }
 			    }
 			  ])
+			
+			//The Simple Scroll directive 
 			  .directive('autoScroll', function($timeout) {
 			    return function(scope, elements, attrs) {
+				// Watches the "message.length variable for changes"
+				// calls anonymous func to scroll page on event.
 			      scope.$watch("messages.length", function() {
 			        $timeout(function() {
 							elements[0].scrollTop = elements[0].scrollHeight
-		
 			        });
 			      });
 			    }
@@ -602,8 +621,9 @@
 						<a href="#{{name}}"><div>{{name}}</div></a></li>
 					</ul>
 				</div>
-		<div class="left-section">
+		<div class="left-section" >
 			<div style="padding-left:50px;padding-right:50px;padding-top:20px;padding-bottom:20px;width:200px; background:#f2f2f2;">
+			
 			<button ng-click="showChat()" class="btn-primary">
 			 	{{chatButton}}
 			</button>
@@ -654,6 +674,9 @@
 
 		<div class="info ">
 			<div >
+				<div class="percent-con" style="background-color:rgba(255,{{colorGrade()}},{{colorGrade()}},1)">
+					
+				<div class="percent" style="width:{{percentComplete}}%">Total Complete: <em>{{percentComplete}}%</em></div></div>
 				<!-- Student Template -->
 				<div class="student-group" ng-repeat="(name, work) in hotness[1].students">
 					<div class="std-name">
@@ -688,9 +711,9 @@
 					<div class="items" ng-repeat="(item,list) in work">
 						<!-- Section Type MVP/Milestones, i.e. item -->
 						<div style="margin:20px;float:left;">
-							
 							<div class="{{item}}"><h2 class="{{item}}">{{presentItem(item).text}} <em class="extra">{{presentItem(item).extra}}</em></h2></div>
 						</div>
+	
 						<!-- Stats in List of Items -->
 						<div ng-repeat="stat in list">
 							
